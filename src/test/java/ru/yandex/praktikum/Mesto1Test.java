@@ -49,6 +49,16 @@ public class Mesto1Test {
                 .then().extract().body().path("data[0]._id"); // Получаем ID фотографии из массива данных
     }
 
+    @Test
+    @DisplayName("Check user name")
+    @Description("This test is for check current user's name.")
+    public void checkUserName() {
+        given()
+                .auth().oauth2(bearerToken) // Передаём токен для аутентификации
+                .get("/api/users/me") // Делаем GET-запрос
+                .then().assertThat().body("data.name", equalTo("Incorrect Name")); // Проверяем, что имя соответствует ожидаемому
+    }
+
     @Step("Like a photo by id")
     private void likePhotoById(String photoId) {
         // Лайк фотографии по photoId
